@@ -1,0 +1,28 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# Terraform related
+# -----------------
+
+# Compiled files
+*.tfstate
+*.tfstate.*
+*.terraform.lock.*
+
+# Module directory
+.terraform
+
+# Terraform CLI Configuration
+.terraformrc
+
+# SSH keys
+*.pem
+
+# Misc files that shouldn't be pushed
+*.draft 
+*.tfbk
+*.exe
+*.zip
+*.bat
+
+# Misc dir that shouldn't be pushed
+/xfer
