@@ -39,7 +39,7 @@ terraform {
 # LINUX / MACOS
 
 data "external" "my_source_ip" {
-  program = ["/bin/bash", "./myip.sh"]
+  program = ["/bin/bash", "./scripts/myip.sh"]
 }
 
 # Set up some locals to ease the duplication effort
@@ -146,7 +146,7 @@ resource "azurerm_network_security_group" "us_sa_k8s_nsg" {
     direction = "Inbound"
     access = "Allow"
     protocol = "Tcp"
-    source_port_range = "22"
+    source_port_range = "*"
     destination_port_range = "22"
     source_address_prefixes = [format("%s/%s", data.external.my_source_ip.result["ip"],32)]
     destination_address_prefix = "*"
@@ -177,6 +177,7 @@ resource "azurerm_public_ip" "us_sa_k8s_public_ip" {
   resource_group_name = azurerm_resource_group.us_sa_k8s_rg.name
   location = azurerm_resource_group.us_sa_k8s_rg.location
   allocation_method = "Dynamic"
+  sku = "Basic"
 }
 
 resource "azurerm_network_interface" "us_sa_k8s_nic" {
@@ -226,7 +227,7 @@ admin_ssh_key {
   source_image_reference {
     publisher = "Canonical"
     offer = "ubuntu-24_04-lts"
-    sku = "Canonical:ubuntu-24_04-lts:server:24.04.202502210"
+    sku = "server"
     version = "24.04.202502210"
   }
 
